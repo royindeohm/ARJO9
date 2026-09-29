@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>9 Months of Us — Happy Anniversary, My Love 💖</title>
+    <meta name="description" content="A romantic interactive journey celebrating 9 months of unconditional love, laughter, fights, and staying strong together.">
+    <meta name="theme-color" content="#110208">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── CANVAS LAYERS ─────────────────────────────── -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<canvas id="touch-canvas" aria-hidden="true"></canvas>
+<canvas id="fireworks-canvas" aria-hidden="true"></canvas>
+
+<!-- ── HUD: AUDIO WIDGET ─────────────────────────── -->
+<div id="audio-widget" class="audio-widget hidden" role="region" aria-label="Music Controls">
+    <button id="btn-audio" class="audio-btn" aria-label="Toggle romantic music">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>
+        </svg>
+        <span class="audio-waves">
+            <span></span><span></span><span></span>
+        </span>
+    </button>
+    <div class="audio-info">
+        <span class="song-title">Piano Lullaby ♪</span>
+        <span class="song-status" id="audio-status">Playing softly…</span>
+    </div>
+</div>
+
+<!-- ── HUD: PERSONALISE BUTTON ───────────────────── -->
+<button id="btn-customizer" class="customizer-trigger hidden" aria-label="Personalise this card">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+    </svg>
+</button>
+
+<!-- ── TOAST ─────────────────────────────────────── -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════════════════ -->
+<main class="app-container">
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         STAGE 0 — SEALED ENVELOPE
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <section id="stage-envelope" class="stage" aria-label="Anniversary envelope">
+
+        <div class="envelope-glow-orb" aria-hidden="true"></div>
+
+        <div class="envelope-wrapper">
+            <!-- The envelope -->
+            <div id="envelope" class="envelope" role="img" aria-label="Sealed anniversary envelope">
+                <div class="envelope-body"></div>
+                <div class="envelope-flap" aria-hidden="true"></div>
+
+                <div class="envelope-letter" aria-hidden="true">
+                    <div class="letter-mini-hearts">❤️ 🌹 ❤️</div>
+                    <p class="letter-mini-text">To the one who holds my entire heart…</p>
+                </div>
+
+                <!-- Wax Seal -->
+                <button id="wax-seal" class="wax-seal" aria-label="Tap to open envelope">
+                    <div class="wax-ring" aria-hidden="true"></div>
+                    <div class="wax-ring" aria-hidden="true"></div>
+                    <div class="wax-ring" aria-hidden="true"></div>
+                    <div class="wax-seal-inner">
+                        <span class="wax-number">9</span>
+                        <span class="wax-label">Months</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Hint below -->
+            <div class="env-hint">
+                <p class="env-hint-main">✨ Tap the Seal to Open Our Story ✨</p>
+                <p class="env-hint-sub">🎵 Turn volume up for soft piano music</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         STAGE 1 — JOURNEY HUB
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <section id="stage-journey" class="stage hidden-stage" aria-label="Anniversary journey hub">
+
+        <!-- Hero -->
+        <header class="hub-header">
+            <div class="pill-badge">💖 &nbsp;9 Month Anniversary&nbsp; 💖</div>
+            <h1 class="hub-title">
+                To My Dearest<br>
+                <span class="name-accent partner-name">My Love</span>
+            </h1>
+            <p class="hub-subtitle">
+                270 days of choosing you — through every laugh, every tear, every fight, and every unforgettable moment.
+            </p>
+        </header>
+
+        <!-- Live Counter -->
+        <div class="glass counter-card" role="timer" aria-label="Time spent together">
+            <div class="counter-top">
+                <span class="counter-label">Together for</span>
+                <span class="live-dot" aria-hidden="true"></span>
+            </div>
+            <div class="counter-row">
+                <div class="cnt-box">
+                    <span id="cnt-d" class="cnt-val">270</span>
+                    <span class="cnt-lbl">Days</span>
+                </div>
+                <div class="cnt-box">
+                    <span id="cnt-h" class="cnt-val">6480</span>
+                    <span class="cnt-lbl">Hours</span>
+                </div>
+                <div class="cnt-box">
+                    <span id="cnt-m" class="cnt-val">388K</span>
+                    <span class="cnt-lbl">Minutes</span>
+                </div>
+                <div class="cnt-box">
+                    <span id="cnt-s" class="cnt-val">23M</span>
+                    <span class="cnt-lbl">Seconds</span>
+                </div>
+            </div>
+            <p class="counter-note">…and every second with you has been a beautiful gift 🌹</p>
+        </div>
+
+        <!-- Chapter Nav -->
+        <h2 class="section-title">Explore Our Love Journey</h2>
+        <div class="chapters-list">
+
+            <div class="glass chap-card" id="open-deck" role="button" tabindex="0" aria-label="Open flashing memory cards">
+                <span class="chap-tag">Chapter 1</span>
+                <div class="chap-body">
+                    <h3>Flashing Memory Cards 🎴</h3>
+                    <p>Cards that reveal how we overcame arguments, parents, school, and social chaos together.</p>
+                    <span class="chap-cta">Tap to Flip the Deck →</span>
+                </div>
+                <div class="chap-icon" aria-hidden="true">🎴</div>
+            </div>
+
+            <div class="glass chap-card" id="open-heartbeat" role="button" tabindex="0" aria-label="Open heartbeat sync">
+                <span class="chap-tag">Chapter 2</span>
+                <div class="chap-body">
+                    <h3>Heartbeat Sync 💓</h3>
+                    <p>Hold your thumb on the glowing heart to sync our pulses and unlock a secret confession.</p>
+                    <span class="chap-cta">Touch &amp; Hold →</span>
+                </div>
+                <div class="chap-icon" aria-hidden="true">💓</div>
+            </div>
+
+            <div class="glass chap-card" id="open-scratch" role="button" tabindex="0" aria-label="Open scratch card">
+                <span class="chap-tag">Chapter 3</span>
+                <div class="chap-body">
+                    <h3>Secret Scratch Card ✨</h3>
+                    <p>Scratch the golden shimmer to uncover my deepest promise to you, hidden just for today.</p>
+                    <span class="chap-cta">Scratch to Reveal →</span>
+                </div>
+                <div class="chap-icon" aria-hidden="true">✨</div>
+            </div>
+
+            <div class="glass chap-card" id="open-stars" role="button" tabindex="0" aria-label="Open constellation">
+                <span class="chap-tag">Chapter 4</span>
+                <div class="chap-body">
+                    <h3>Our Love Constellation 🌌</h3>
+                    <p>Connect the glowing numbered stars in order to illuminate our 9-month love symbol.</p>
+                    <span class="chap-cta">Light the Sky →</span>
+                </div>
+                <div class="chap-icon" aria-hidden="true">🌌</div>
+            </div>
+
+            <div class="glass chap-card gold-card" id="open-letter" role="button" tabindex="0" aria-label="Open anniversary letter">
+                <span class="chap-tag gold-tag">Final Chapter</span>
+                <div class="chap-body">
+                    <h3>The Grand Anniversary Letter 💌</h3>
+                    <p>A heartfelt letter pouring out how deeply, madly, and passionately I am in love with you.</p>
+                    <span class="chap-cta gold-cta">Read My Letter ❤️</span>
+                </div>
+                <div class="chap-icon" aria-hidden="true">💌</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="hub-footer">
+            <p class="footer-quote">"Inspite of all the arguments, fights &amp; miscommunications — we stayed strong."</p>
+            <span class="footer-anniv">💖 Happy 9th Month Anniversary 💖</span>
+        </footer>
+
+    </section>
+
+</main><!-- /.app-container -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     OVERLAY: CHAPTER 1 — 3D FLASH DECK
+══════════════════════════════════════════════════════ -->
+<div id="overlay-deck" class="overlay hidden-modal" role="dialog" aria-modal="true" aria-label="Flashing memory cards">
+    <div class="overlay-header">
+        <h2 class="overlay-title">Chapter 1: Memory Deck</h2>
+        <button class="btn-close" data-close="overlay-deck" aria-label="Close">×</button>
+    </div>
+    <p class="overlay-hint">Tap a card to 3D flip it · Swipe left/right to browse</p>
+
+    <div class="deck-scene">
+        <div class="deck-stage" id="deck-stage">
+
+            <!-- Card 1 -->
+            <div class="fcard current" data-idx="0">
+                <div class="fcard-inner" tabindex="0" role="button" aria-label="Flip card 1">
+                    <div class="fcard-face fcard-front">
+                        <span class="fcard-chip">Memory #1</span>
+                        <h3 class="fcard-title">The Storms We Weathered 🌧️</h3>
+                        <p class="fcard-teaser">We clashed, misunderstood each other, and had heartbreaking days…</p>
+                        <div class="fcard-flip-cue">
+                            <span class="flip-icon">🔄</span> Tap to flip &amp; read the truth
+                        </div>
+                    </div>
+                    <div class="fcard-face fcard-back">
+                        <span class="fcard-chip">Our Resilience</span>
+                        <p class="fcard-quote">
+                            "No relationship is smooth sailing. We had arguments, fights, and moments where miscommunications broke our hearts. But what makes us special is that after every storm, we never gave up on each other. We learned, we forgave, and we held hands even tighter."
+                        </p>
+                        <span class="fcard-stamp">🔒 Unbreakable Bond</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="fcard" data-idx="1">
+                <div class="fcard-inner" tabindex="0" role="button" aria-label="Flip card 2">
+                    <div class="fcard-face fcard-front">
+                        <span class="fcard-chip">Memory #2</span>
+                        <h3 class="fcard-title">Against All the Odds 📚</h3>
+                        <p class="fcard-teaser">When parents, school stress, and social noise tried to overwhelm us…</p>
+                        <div class="fcard-flip-cue">
+                            <span class="flip-icon">🔄</span> Tap to flip &amp; read the truth
+                        </div>
+                    </div>
+                    <div class="fcard-face fcard-back">
+                        <span class="fcard-chip">Our Safe World</span>
+                        <p class="fcard-quote">
+                            "The world outside was chaotic. School pressure, parents' expectations, and outside opinions gave us a hundred reasons to feel overwhelmed. But inside our quiet universe, your voice was my comfort, and our love was the only anchor that kept me grounded."
+                        </p>
+                        <span class="fcard-stamp">🛡️ My Safe Haven</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="fcard" data-idx="2">
+                <div class="fcard-inner" tabindex="0" role="button" aria-label="Flip card 3">
+                    <div class="fcard-face fcard-front">
+                        <span class="fcard-chip">Memory #3</span>
+                        <h3 class="fcard-title">270 Days of Choosing You 🌹</h3>
+                        <p class="fcard-teaser">Why these 9 months mean more to me than words can ever describe…</p>
+                        <div class="fcard-flip-cue">
+                            <span class="flip-icon">🔄</span> Tap to flip &amp; read the truth
+                        </div>
+                    </div>
+                    <div class="fcard-face fcard-back">
+                        <span class="fcard-chip">9 Months Strong</span>
+                        <p class="fcard-quote">
+                            "9 months isn't just a number. It's 270 days of choosing you over anyone else. It's waking up knowing that no matter what problems come our way, I have the most incredible, beautiful, irreplaceable person by my side."
+                        </p>
+                        <span class="fcard-stamp">👑 My Everything</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="fcard" data-idx="3">
+                <div class="fcard-inner" tabindex="0" role="button" aria-label="Flip card 4">
+                    <div class="fcard-face fcard-front">
+                        <span class="fcard-chip">Memory #4</span>
+                        <h3 class="fcard-title">My Deepest Love For You 💘</h3>
+                        <p class="fcard-teaser">I genuinely cannot put into words how much I am in love with you…</p>
+                        <div class="fcard-flip-cue">
+                            <span class="flip-icon">🔄</span> Tap to flip &amp; read the truth
+                        </div>
+                    </div>
+                    <div class="fcard-face fcard-back">
+                        <span class="fcard-chip">Forever &amp; Always</span>
+                        <p class="fcard-quote">
+                            "If you opened my heart right now, you'd find your name written in every corner of it. I am deeply, passionately, hopelessly, and completely in love with you. Thank you for staying strong with me for these beautiful 9 months. 💖"
+                        </p>
+                        <span class="fcard-stamp">💞 Soulmates</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="deck-controls">
+            <button id="deck-prev" class="btn-deck" aria-label="Previous card">← Prev</button>
+            <span id="deck-page" class="deck-pager" aria-live="polite">Card 1 of 4</span>
+            <button id="deck-next" class="btn-deck" aria-label="Next card">Next →</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     OVERLAY: CHAPTER 2 — HEARTBEAT SYNC
+══════════════════════════════════════════════════════ -->
+<div id="overlay-heartbeat" class="overlay hidden-modal" role="dialog" aria-modal="true" aria-label="Heartbeat sync">
+    <div class="overlay-header">
+        <h2 class="overlay-title">Chapter 2: Heartbeat Sync</h2>
+        <button class="btn-close" data-close="overlay-heartbeat" aria-label="Close">×</button>
+    </div>
+
+    <div class="hb-wrap">
+        <p class="hb-instruction">Press and hold your thumb on the glowing heart below to sync our heartbeats and unlock a secret confession…</p>
+
+        <div id="hb-sensor" class="hb-sensor" role="button" aria-label="Hold to sync heartbeat" tabindex="0">
+            <div class="hb-ring hb-ring-1" aria-hidden="true"></div>
+            <div class="hb-ring hb-ring-2" aria-hidden="true"></div>
+            <div class="hb-ring hb-ring-3" aria-hidden="true"></div>
+            <div class="hb-core" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="68" height="68" fill="currentColor">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="hb-progress-bar" role="progressbar" aria-label="Sync progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div id="hb-fill" class="hb-fill"></div>
+        </div>
+
+        <p id="hb-label" class="hb-label">Hold for 3 seconds…</p>
+
+        <div id="hb-secret" class="secret-reveal hidden-reveal">
+            <span class="secret-tag">❤️ Synced Heart Confession ❤️</span>
+            <p class="secret-text">
+                "Listen closely to this pulse — it beats only for you. No argument could break it, no distance could weaken it. My heart is yours, completely and forever."
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     OVERLAY: CHAPTER 3 — SCRATCH CARD
+══════════════════════════════════════════════════════ -->
+<div id="overlay-scratch" class="overlay hidden-modal" role="dialog" aria-modal="true" aria-label="Secret scratch card">
+    <div class="overlay-header">
+        <h2 class="overlay-title">Chapter 3: Scratch Surprise</h2>
+        <button class="btn-close" data-close="overlay-scratch" aria-label="Close">×</button>
+    </div>
+
+    <div class="scratch-wrap">
+        <p class="scratch-hint">Use your finger to scratch away the golden shimmer and reveal a secret note written just for you 💛</p>
+
+        <div class="scratch-frame">
+            <div class="scratch-under">
+                <div class="scratch-badge">🎁 &nbsp;9 Months Secret Surprise&nbsp; 🎁</div>
+                <h3 class="scratch-headline">"You are my favourite notification, my happiest thought, and my forever home."</h3>
+                <p class="scratch-sub">Even when the whole world gets noisy — you are the only peace I will ever need. I love you so much! 🌹</p>
+                <div class="scratch-decor">✨ 💖 ✨</div>
+            </div>
+            <canvas id="scratch-canvas"></canvas>
+        </div>
+
+        <button id="btn-scratch-reset" class="btn-reset">Scratch Again 🔄</button>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     OVERLAY: CHAPTER 4 — CONSTELLATION
+══════════════════════════════════════════════════════ -->
+<div id="overlay-stars" class="overlay hidden-modal" role="dialog" aria-modal="true" aria-label="Star constellation">
+    <div class="overlay-header">
+        <h2 class="overlay-title">Chapter 4: Our Constellation</h2>
+        <button class="btn-close" data-close="overlay-stars" aria-label="Close">×</button>
+    </div>
+
+    <div class="sky-wrap">
+        <p class="sky-hint">Tap the glowing stars in order <strong>(1 → 2 → 3 → 4 → 5)</strong> to connect our love constellation in the night sky!</p>
+
+        <div class="sky-stage" id="sky-stage">
+            <canvas id="sky-canvas" aria-hidden="true"></canvas>
+
+            <div class="star-node" data-n="1" style="top:24%;left:30%" aria-label="Star 1" role="button" tabindex="0">
+                <span class="star-glyph">★</span>
+                <span class="star-num" aria-hidden="true">1</span>
+            </div>
+            <div class="star-node" data-n="2" style="top:16%;left:70%" aria-label="Star 2" role="button" tabindex="0">
+                <span class="star-glyph">★</span>
+                <span class="star-num" aria-hidden="true">2</span>
+            </div>
+            <div class="star-node" data-n="3" style="top:52%;left:88%" aria-label="Star 3" role="button" tabindex="0">
+                <span class="star-glyph">★</span>
+                <span class="star-num" aria-hidden="true">3</span>
+            </div>
+            <div class="star-node" data-n="4" style="top:76%;left:50%" aria-label="Star 4" role="button" tabindex="0">
+                <span class="star-glyph">★</span>
+                <span class="star-num" aria-hidden="true">4</span>
+            </div>
+            <div class="star-node" data-n="5" style="top:52%;left:12%" aria-label="Star 5" role="button" tabindex="0">
+                <span class="star-glyph">★</span>
+                <span class="star-num" aria-hidden="true">5</span>
+            </div>
+        </div>
+
+        <div id="stars-reveal" class="secret-reveal hidden-reveal">
+            <span class="secret-tag">🌌 Constellation Complete! 🌌</span>
+            <p class="secret-text">
+                "Just like these stars connect to form a heart, every day of our 9 months connects to form the most beautiful love story of my life."
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     OVERLAY: FINAL — GRAND ANNIVERSARY LETTER
+══════════════════════════════════════════════════════ -->
+<div id="overlay-letter" class="overlay hidden-modal" role="dialog" aria-modal="true" aria-label="Anniversary letter">
+    <div class="overlay-header">
+        <h2 class="overlay-title">💌 Grand Anniversary Letter</h2>
+        <button class="btn-close" data-close="overlay-letter" aria-label="Close">×</button>
+    </div>
+
+    <div class="letter-wrap">
+        <article class="glass love-letter">
+            <div class="letter-stamp" aria-hidden="true">9 MONTHS</div>
+
+            <h2 class="letter-salutation">
+                My Dearest <span class="partner-name">My Love</span>,
+            </h2>
+
+            <div class="letter-body-text">
+                <p class="lp highlight">
+                    Today marks <strong>9 incredible months</strong> of us being together — 270 days since you became my partner, my best friend, and my entire universe.
+                </p>
+
+                <p class="lp">
+                    I want to be completely honest with you. We haven't had a fairytale free of storm clouds. We had arguments, miscommunications, and moments where tears fell and it felt like everything was collapsing. We faced school pressure, parents' expectations, and all the chaotic noise of the world trying to pull us in different directions.
+                </p>
+
+                <p class="lp highlight">
+                    But inspite of all of that — <strong>we stayed strong</strong>. And that is everything.
+                </p>
+
+                <p class="lp">
+                    Every single time life tested us, our love didn't break — it grew deeper. We fought <em>for</em> each other, not against each other. And standing here today, 9 months later, I am more certain of you than I have ever been of anything in my entire life.
+                </p>
+
+                <p class="lp">
+                    I genuinely cannot put into words how deeply, passionately, and overwhelmingly I am in love with you. You make my world warmer, brighter, and infinitely more beautiful just by existing in it. Your smile wipes away my worst days. Your voice is the most calming sound I know. Your hand in mine is the only anchor I will ever need.
+                </p>
+
+                <p class="lp highlight">
+                    Thank you for loving me. Thank you for choosing me — every single day — for 9 months. I promise to keep loving you, protecting you, listening to you, and standing by your side through every storm and every sunshine still ahead of us. 💖
+                </p>
+            </div>
+
+            <div class="letter-sign">
+                <p class="sign-closing">Forever and always yours,</p>
+                <span class="sign-name" id="sign-name-display">Your Loving Partner</span>
+                <p class="sign-date">Happy 9th Month Anniversary · September 30, 2026 🌹</p>
+            </div>
+
+            <div class="letter-actions">
+                <button id="btn-fireworks" class="btn-primary">
+                    Celebrate With Fireworks 🎆
+                </button>
+            </div>
+        </article>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     OVERLAY: PERSONALISE
+══════════════════════════════════════════════════════ -->
+<div id="overlay-customizer" class="overlay hidden-modal" role="dialog" aria-modal="true" aria-label="Personalise card">
+    <div class="overlay-header">
+        <h2 class="overlay-title">Personalise This Card ✍️</h2>
+        <button class="btn-close" data-close="overlay-customizer" aria-label="Close">×</button>
+    </div>
+
+    <div class="form-wrap">
+        <p class="form-desc">Customise the names below to make this gift card uniquely yours before you share it!</p>
+
+        <div class="form-field">
+            <label for="inp-partner">Her Name / Nickname</label>
+            <input type="text" id="inp-partner" value="My Love" placeholder="e.g. My Princess, Angel, Sarah">
+        </div>
+
+        <div class="form-field">
+            <label for="inp-author">Your Name / Nickname</label>
+            <input type="text" id="inp-author" value="Your Loving Partner" placeholder="e.g. Yours Forever, Alex">
+        </div>
+
+        <button id="btn-save-custom" class="btn-primary">Save &amp; Apply ✨</button>
+    </div>
+</div>
+
+
+<!-- ── SCRIPTS ─────────────────────────────────────── -->
+<script src="audio.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
